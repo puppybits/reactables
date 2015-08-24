@@ -1,7 +1,8 @@
 **Guiding light**
-** people first. Speed (Network usage)
-** React is faster to create and send, better for users
-** React is easier to reason about, great for devs
+
+* people first. Speed (Network usage)
+* responsiveness. Global render optimizations like using webGL 
+* simple. Less permutations make it easy to figure out what will happen. 
 
 **Points to hit**
 * If you have code that only run in node or only runs on the browser it's not truly universal. Share close to the entire app on both. 
