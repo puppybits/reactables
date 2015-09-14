@@ -1,298 +1,299 @@
-**Guiding light**
+# Simple, Immediate. 
 
-* people first. Speed (Network usage)
-* responsiveness. Global render optimizations like using webGL 
-* simple. Less permutations make it easy to figure out what will happen. 
+—
 
-**Points to hit**
-* If you have code that only run in node or only runs on the browser it's not truly universal. Share close to the entire app on both. 
-* string templates are always slow
-* no extra syntax to learn
-* not bought into a monolithic stack
-* angular sucks
-* hot code swapping
-* persist state on the server for debugging live users
-* UI as a reflection of the data (easy debugging)
-* HTML is connected and reflective of the JS. In Angular HTML is not reflective of what the javascript is doing underneath. Hard to debug.
-* 2015 Developer manifesto. 
-** Hot swap code, even when deep in the state of the site 
-** structure code in a way that's best for developer but hyper optimize deployment for users. Allow for code to run at build time, server of on browser. 
-** Testing without a browser 
-** Simple UI debugging
-** clear separation between view, data transforms, persistence and data fetching for easy debugging
-** Reversible data transforms and UI state
-** Record and send all data flow changes to the server for clear repo steps 
+# Simple, Immediate. 
 
-**Best Practice Notes**
-* Always use PropTypes. Explains how to use the component.
-* Render method should NEVER change anything.
-* implement `componentShouldUpdate` to manually cull overrendering
-* avoid `context` as much as possible
-* find the highest parent possible to contain domain specific logic and keep as many components as possible to be as dumb as possible
-* re-use as much of the web pack config as possible
-* 
+* Simple - do one thing.
+* **Im**-mediate - in
+* Im-**mediate** - now
 
-# Why React?
-——
+—
 
-# People First 
+# Real world examples.
 
-——
-### People First 
-* 2,000 millisecond TTI (time to interact) decreased revenue by -4%<sup>[bing, amazon, google][page-load-stats]</sup>
-* 3,000 milliseconds will lose 40% of people<sup>[yotta][bounce-rate]</sup>.
-* 100 milliseconds direct manipulation. interactions makes user feel the system is reacting properly (no special feedback needed) <sup>[Jakob Nielson PhD][ui-limits]</sup>.
-* 1,000 milliseconds interrupts the users flow of thought<sup>[Jakob Nielson PhD][ui-limits]</sup>.
-* 10,000 milliseconds lose the user’s attention<sup>[Jakob Nielson PhD][ui-limits]</sup>.
-* Amazon, Google, Bing, IFC & Chilis mobile traffic was roughly 45% of traffic.<sup>[Clickz (2015)][mobile-traffic]</sup>
-* 50% of the users are on 3G and LTE users are on 3G 33% of the time.<sup>[open single (2014)][mobile-speeds]</sup>
+—
 
-——
-### People First Metrics
+# Real World Task - edit turning accounts on/off
+![](imgs/bank-states.png)
 
-* Connection speed threshold is 1.6Mbps/0.2MBps (Fastest mobile 3G speed).
-* Time to Interact in less than 2,000 ms.
-* Time to Transition in less than 1,000 ms.
-* **400KB** is the target size for the initial page load.
+—
 
-——
-### People First - Competitors
-**TODO: film strip view of multiple sites loading for an average mobile user**
+# Real World - Mocks
+![](imgs/page-flow.png)
 
-——
-### People First - React in Production
-**TODO: film strip load time of our landing page built in React**
+—
 
-——
-# React Core Tenets 
-* Simplify.
-* **Only a view layer library.** Not a monolithic framework.
-* **View is just a side-effect of data.** Or to say it another way, The view is just a reflection of the data at that snapshot. 
-* Data transformation and mutation is completely decoupled from the view. 
-* Components are owned by their parent with a one-way data flow.
-* The view is not coupled to the painting of the screen. 
+# Real World - How does a application work?
 
-——
-# React Caveats
-* React manages the view layer in a way to take care of global optimizations and synchronization with the paint cycles. 
-* Don’t use jQuery.
-* Don’t mutate the DOM.
-* React can be hard with some other libraries that use the DOM. If any library needs the DOM (like D3 or jQuery) then wrap it in a component and opt out of react’s DOM handling for that component.
-* React components have the promise of Polymer’s compatibility but the React community isn’t focusing on improving that aspect of React.
-* Webpack is a great build tool but a higher learning curve than Gulp/Grunt.
+- Registration Page
+- render registration template
+- event - enter username/password
+- event - click Register
+- validateEmail
+- validatePasswordSecurity
+- network - send {email:””,password:””}
+- network - approval receive {token:””}
+- navigateTo(“/selection”)
+- render selection template
+- event - click bank button
+- set {banks:[{id:1, name:”bank 1”, hasPin:false}]}
+- event - click next button
+- navigateTo(“/verification”)
+- render verification page
+- event - enter username/password
+- event - click connect
+- network - send {username:””,password:””,bankId:””}
+- receive {challengeQuestions:[“”], sessionId:””}
+- render verify-challenge template
+- event - enter challenge answer
+- event - click answer
+- network - send {sessionId:””, answers:[]}
+- receive {status:”connected”, accounts:[{name:””,id:””,active:true},…]
+- render account template
+- finally in a state to test
 
-——
-# What does this look like for developers?
+# Permutations
 
-——
-# UI as a side effect. Immediate mode. 
-* This is most critical difference with React.
-* Explain possible combinations of an action with possible permutations. Each permutation has a logarithmic increase is the number of possibilities and becomes increasingly hard.
-* Most UIs are a permutation of all changes since the start of the system
-* The complex order of operations make it’s more brittle to build things on top of this model.
-* If you've ever had to do full regressions because different parts of you app cause bugs at other ends of your app, that's because of the permutation effect. 
+- **per**-mutation - for each
+- per-**mutation** - mean change
+- Each item and the __order__ of those items, trigger a different change
+- very complex
+- easy to break
+- Easy for a bug at one end to affect another end
 
-——
-### UI as a side effect. Immediate mode
+--
 
-* React views are a product of the last global data snapshot against current data snapshot
-* Complex permutations are able to be handled elsewhere. With UI, human interactions and time it makes it easier to isolate and unit test data transforms. 
+# Permutations - Why are they bad? 
 
-**TODO: make example of CSS transform order of operations versus additive settings.**
+--
 
-——
-### UI as a side effect - Hot swapping code
+# Permutations - Conflating concerns
 
-* Modules (and their source maps) can be replaced in the browser at runtime.
-* The state of the app doesn’t need to change just the view.
-* This means styles as well as interactions can be hot swapped in for live testing/debugging.
+- data
+- backend persistence
+- service-provider backend
+- network loading
+- view template rendering
+- animations
+- view states
+- end user and UX designer
 
-[Webpack][Webpack]
-**TODO: video of webpack hot swapping code***
+**Todo: show image of tasks and group into concerns**
 
-——
-### UI as a side effect - Debugging in React
-* React can snapshot the view at each change
-* To debug just log the lifecycle method for new data coming in. 
-* Insert image of components with which is the data-aware component and which are dumb shell components. 
-* **Stop debugging call stacks** just see what the state is of the data. 
-* The view shouldn’t do anything but be a reflection of the data. This allows you to **focus unit tests on data transforms** not the view. Designers always rework the view but the underlaying business rules almost never change.
+--
 
-——
-# Data is hard 
-* How do you have offline data?
-* How do you synchronize data between multiple users?
-* How to you reconcile offline data mutations between multiple clients?
-* Remember WDSL & Soap?
-* Remember XML and XPath?
-* Remember JSON and REST? 
-* Data retrieval, persistence and synchronization are very hard and not one solution is perfect.
+# Simplify
 
-——
-### Data is hard - React doesn’t do data
-* React is a __view__ library.
-* React isn’t a monolithic framework. So you can change you’re data strategies without affecting you view code.
+### What can we distill down to the essence of what is needed?
 
-——
-### Data - Props and State
-* Props is data that has been passes to you.
+--
 
-```javascript
-// parent
-render: function() {
- return React.createElement(MyChild, {prop1:’val1’});
-}
-// child
-render: function(){
-	return React.createElement(‘div’, nil, this.props.prop1);
-}
+# Simplify
+
+**todo: show list of tasks and the page at the connected state**
+
+* Circle the user token and bank data
+
+--
+
+# Simplify
+
+If all that is needed is token and the bank, why do we have to go through this long brittle process to get there?
+
+--
+
+# Simplify - Immediate Mode
+
+- First popularized by Casey Muratori (@cmuratori) in 2005 for GUI development for video games.
+- Absolutely 0 permutations.
+- It's a simple data mutation. **Given X do Y.**
+- ReactJS is the only web framework with Immediate Mode
+- ReactJS's takes Casey's immedate mode and makes it even clearer, simpler and performant.
+- Just like building construction moved away from brick and mortar to steel i beams to build skyscrapers. Immediate mode is our I beam.
+
+--
+
+# Immediate Mode development
+
+- What was needed for rendering the connected state? Token, bank, account  
+
+**Todo: show json of data = image of page.**
+
+- Is just a simple transform
+- One you speak in JSON the other is the same thing in HTML/CSS
+
+--
+
+# Immediate Mode development
+
+- How do we use Immediate Mode?
+- Render(json) will give the exact same output every time. 
+
+**TODO: show code of render cycle**
+
+--
+
+# Immediate Mode development - hot swapping
+
+* No complex permutations, no setting variables, no walking through a ton of functions and processing instructions.
+* Given data X create HTML Y.
+
+**Todo: show blank page, pass in page, then render and JSON. Then page loads.**
+
+--
+
+# Immediate Mode development - Performance
+
+* Great! So immediate mode can help me fix bugs faster.
+* But that seems horribly CPU and memory intensive. The browser must be crazy slow.
+
+--
+
+# Immediate Mode development - Performance
+
+* Great! So immediate mode can help me fix bugs faster.
+* But that seems horribly CPU and memory intensive. The browser must be crazy slow.
+
+**TODO: talk about the rendering pipeline that is triggers of data mutation.**
+
+--
+
+# Simple Foundation - Simple is BETTER
+
+* because we’ve vastly simplified out UI process we can build bigger and better things on top that would be insanely complex previously
+* we’ve already seen in place state changes.
+
+--
+
+# Simple Foundation - (near) Real-time dev cycles
+
+* Because it’s just a simple function you can just replace the render function and have a new flow. 
+* Hot swap webpack will replace your render function.
+
+**Todo: show video of live updating CSS.**
+
+* The page didn’t change so the state is the same. 
+* This works with events as well. 
+* It works with completely changing the HTML. 
+
+**Todo: show video of live updating events.**
+
+--
+
+# Simple Foundation - State Stubs
+
+* figure out all the states a component can get into
+* when it’s a DEV/QA build add in a mix-in to expose the states
+* with Uglify and dead code elimination no dev code will even go to prod
+* Turn on snapshots and toggle through each state or pass an int and go directly to the state you want
+* With an good i18n library you can even do inline translations and save out a JSON file
+
+--
+
+# Simple Foundation - Resurrection
+
+* Since HTML is just a result of JSON we can do dynamically switch between rendering view templates on the server or the client.
+* Why would I want to do that?
+* super fast page load speeds!
+* On the first load of a page, the server will render static HTML/CSS and send it to the client.
+* This is super small and doesn’t take up any space so the page loads crazy fast.
+* After the page is loaded React.js loads after the first render and attached **ON TOP OF** the server-side rendered HTML. 
+* Transitioning to another page only requires a small XHR to download a 2K JS for the following page. And then we can even do animated transitions between pages.  
+
+**TODO: show image of exported file sizes and webpack require code to do chunking**
+
+--
+
+# Simple Foundation - Time travel
+
+* add in immutable data and we have a highly efficient way to record large amount of data changes
+* infinite undo/redo is as simple as pushing/popping a json in an array  
+
+**TODO: show Goya undo/redo**
+
+--
+
+# Simple Foundation - Teleportation
+
+* Now that we can time travel without using lots of memory or CPU, what is we save that to the server?
+* Revive any state and any point in the application flow.
+* Production debugging and troubleshooting is as easily as loading a JSON with of every action the user ever took on your development machine.
+* Rewind and step through every transformation of the data and UI to find the bug. No more repo step or saying it works on my machine. See the data and see the mutations.  
+
+**TODO: find that damn video or dev restoration of client state**
+
+--
+
+# Simple Foundation - Resilience (not rigidity)
+
+* because data is now separate from the user and the ui, it’s much easier to test.
+* Unit tests are wonderful at seeing if the data changes from a to b after running function f.
+* create unit tests on the inputs and output of data transformation
+* no more conflating `is(ele.hasClass(“disable”)` with if the user really can’t click on it and if the user can’t go to the next step and does the data get in a bad state.
+
+**TODO: tell story of Nike E-comm size runs. **
+
+--
+
+# Simple Foundation - Telekinesis
+
+* The data transformation aren’t coupled to the view. 
+* The data transforms are unit tests so we are secure that it can’t get into a bad state.
+* UI is just a simple function of render(JSON).
+* moving view elements and reflowing the process of the app is simple to do. 
+* the developer can drop in at any state and progress from there with **NO prerequisites**.  
+
+**TODO: tell story of Nike E-comm UX designer went from wizard with 3 models to single page and it took 2 hours to reflow a working app (minus the CSS).**
+
+--
+
+# 2015 UI developer manifesto
+
+* Immediate Mode is a MASSIVE revolution!
+* Unit test your data mutations and persistence without conflating UI, rendering responsiveness, network speeds or end-users/UX concerns!
+* Take your dev cycle to (near) real-time!
+* Move to ANY state in the app **IMMEDIATELY**!
+* Stop giving repo steps. Just load the client’s history of mutations and step through the how the data/UI interacted.
+* Production fixes should be simple to find and quick to fix. Each fix should be a data layer unit test so you’re app is increasing more stable.
+* Work with designer to iterate on UIs quicker, with live data. 
+* Less complications, less steps, less bugs and have more fun!
+
+--
+
+# Be Immediate. - Megatome
+
+**[Megatome (bit.ly/megatome)](http://bit.ly/megatome)**
+ 
+* Megatome will handle a ton of bootstrapping to help with getting  you in immediate mode with a simple build command.
+* Contains:
+ * React for performant Immediate Mode.
+ * Webpack dev server for real-time dev cycle (hot swap code), proxies to external back-end server.
+ * Webpack for super easy code splitting, transpilation (ES6/SASS/what ever), stats on dependency graph, asset optimization.
+ * React Router for seamless integration in webpack, passing data between routes, animatable page transitions and dynamic micro-routes (think of localize routes for different page states, like models).
+ * ImmutableJS for super efficient data memory management.
+ * Simplified webpack config for magnification, dead code elimination, source maps, long-term asset caching (on prod), pre-gzip and static code compilations (turn async code to sync and run 99% of the client code in Node for server-side HTML generation).
+
+--
+
+# Be Immediate. - 0 to 60
+
+**[Megatome (bit.ly/megatome)](http://bit.ly/megatome)**
+
 ```
-I
-* State is data that you have control over
-
-```javascript
-// child
-toggle: function(){
-	this.setState({isOn: !this.state.isOn});
-}
-render: function(){
-	var buttonProps = {onClick: function(){ this.toggle(); }};
-	return React.createElement(‘button’, buttonProps, ‘Click to toggle’);
-}
+brew install node
+npm install -g yo
+npm install -g generator-megatome
+yo megatome My-App-Name
+npm start
 ```
 
-——
-### Data - Props and State - One way data flow
-* The highest possible parent owns the connection to the data mutations
-* Parent passes immutable props to child. (in React 0.14)
-* Child has internal state to hold its own record of what data is being displayed in the view.
+**TODO: video of installing and running Megatome**
 
-```javascript
-componentShouldUpdate: function(nextState, nextProps){
-	var currentState = this.state;
-	var currentProps = this.props;
-}
-```
-* React views can change their own state but not their props.
-* Use an event to send state to parent.
+--
 
-```javascript
-// parent
-increment: function(newValue){
-	this.setState({prop1: newValue});
-}
-render: function(){
-	var childProps = {prop1:1, onActivated:this.increment};
-	return React.createElement(MyChild, childProps);
-}
-// child
-render: function(){
-	var buttonProps = {onClick: onClick: this.props.onActivated};
-	return React.createElement(‘button’, buttonProps, ‘+’);
-}
-```
+# Permutations lead to complexity. Complexity leads to suffering. - @ImmediateYoda 
 
-——
-### Data - Building on Props/State with Immutable data.
+# Go. Be Immediate. - @puppybits
 
-**Simple made easy**
-
-Simple - one thing  
-Easy - near our capabilities  
-
-* Immutable data is simple. It can not be changed out from under you. 
-* Allows for easier concurrency and parallelism that is easier to rationalize about. 
-* Immutable does not mean slow. There is an efficient diff-ing strategy. 
-* Each change is just holds a pointer to a new head. All other data is shared and unchanged. 
-
-
-[simple-made-easy][rich-simple]
-
-——
-### Data - Immutable data - Building on top of immutable data
-
-* Remember a React view is just a reflection of the data at a single point in time.
-* Rewind, replay and fast forward data change, which will update your view.
-* Because data is immutable there is only one source of truth and it can be record simply and easily.
-
-**TODO: Show video Reflux of rewind**  
-
-——
-### Data - Immutable data - Production debugging
-
-* Save every diff to the server
-* Restore the app state on any machine and any state just by setting up the data the same way
-I
-**TODO: show video of OM reviving app on another machine**
-
-——
-### Data - A possible future with Demand-Driven Architecture
-* Fetch only the smallest amount of data needed to drive the view
-[Demand Driven Architecture][DDA]
-
-**TODO: Small example code of DDA**
-
-——
-# Versatile - screen painting and rendering performance 
-* DOM is great for static pages but not for constantly changing app
-* DOM will never be good at long scroll lists without object pooling (iOS has had this since iOS 1!)
-* React targets the platforms native rendering layer. Including DOM, canvas, WebGL, iOS UIKit and soon Android Fragments. 
-* Animations are smooth and easy to reason about since it's just a transition from one set of data to another set of data. 
-**TODO: show responsive react site**
-**TODO: get link to webGL running in React**
-
-——
-### Versatile - Network performance with Universal Javascript
-* run same code on server and client-side
-* need to not use browser only libraries.
-** (used super agent to pull data the same on client and server)
-** don’t access DOM. otherwise you’ll need to run a headless phantoms browser on the server. this will eat up a lot more CPU and run slower
-* create static HTML pages, generate HTML server-side or run as a full JS app on the client with only changing a small bootstrap file
-
-——
-### Versatile - Network performance with Universal Javascript
-* Example - Level Money’s infrastructure for the new web site.
-* Webpack has 2 build tasks: One for the client libraries (chunked at the page level for async loading). The other is a single file   (with synchronous loading) to render on the server.
-* The only difference is a single 20 line bootstrap file between the client and server code.
-* The server generates a minimal set of HTML (w/ react ids).
-* The HTML and CSS load first and render the view for the user.
-* After the user is interacting with the content, then React and the libraries are loaded and attach __on top of__ the HTML that was already generated.
-* When the user clicks on the next link it will use XHR to download the minimal JS and data to load the next page and then animate to the next page.
-* If React doesn’t have time to load, links will render server-side for the next page.
-* React being a side-effect of the data makes it much easier to manage this pattern.  
-
-**TODO: change to a simple graphic**
-[Webpack][Webpack]
-[Webpack bootstrapping][Webpack-react-bootstrap]
-
-——
-# React - Simple made easy
-* Better for developer and for end users
-* Just the view layer.
-* UI as a side-effect is so powerful.
-* Only a few lifecycle methods to learn.
-* Enable functional style programming easier.
-* Simple to debug by just checking the view at any given snapshot.
-* Easy to rationalize about what the system is displaying.
-* Use standard JavaScript, no crazy $scope or tons of other things to learn. 
-* Simple makes it possible to build more on top without adding massive layers on complexity. 
-
-——
-# Why React?
-
-——
-# Why the hell aren't you using React?
-
-——
-
-[page-load-stats]: http://www.guypo.com/17-statistics-to-sell-web-performance-optimization/
-[ui-limits]: http://www.nngroup.com/articles/response-times-3-important-limits/
-[bounce-rate]: http://www.yottaa.com/blog/application-optimization/marketing-web-performance-101-how-site-speed-impacts-your-metrics-
-[web-vs-app]: http://www.smartinsights.com/mobile-marketing/mobile-marketing-analytics/mobile-marketing-statistics/
-[mobile-traffic]: http://www.clickz.com/clickz/column/2388915/why-mobile-web-still-matters-in-2015
-[mobile-speeds]: http://opensignal.com/reports/state-of-lte/usa-q1-2014/
-[gq-faster-pages-more-people]: http://digiday.com/publishers/gq-com-cut-page-load-time-80-percent/
-[rich-simple]: http://www.infoq.com/presentations/Simple-Made-Easy
-[DDA]: http://www.infoq.com/presentations/domain-driven-architecture
-[Webpack]: http://webpack.github.io/
-[Webpack-react-bootstrap]: https://github.com/Levelmoney/generator-megatome
+--
